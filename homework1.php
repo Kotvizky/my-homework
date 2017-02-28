@@ -10,27 +10,28 @@ function task1()
     $age = 40;
     echo "Меня зовут $name<br>";
     echo "Мне $age лет<br>";
-    echo '“!|\/’"\\'.'<br>';
+    echo '“!|\/’"\\' . '<br>';
 }
 
 /**
  * tast 2 function
  */
-function task2(){
+function task2()
+{
     $total = 80;
     $marker = 23;
     $pencil = 40;
     $paint = $total - $marker - $pencil;
     echo
-        '<h3>Условие</h3>'.
-        "<p>На школьной выставке $total рисунков. ".
-        "$marker из них выполнены фломастерами, ".
-        "$pencil карандашами, а остальные — красками.</p>".
-        '<p>Пусть Х - это количество рисунков красками.<br>'.
-        ' Тогда 23 + 40 + Х = 80;<br>'.
-        'Х = 80-(23 + 40);</br>'.
-        "Х = $total.</p>".
-        '<h3>Ответ</h3>'.
+        '<h3>Условие</h3>' .
+        "<p>На школьной выставке $total рисунков. " .
+        "$marker из них выполнены фломастерами, " .
+        "$pencil карандашами, а остальные — красками.</p>" .
+        '<p>Пусть Х - это количество рисунков красками.<br>' .
+        ' Тогда 23 + 40 + Х = 80;<br>' .
+        'Х = 80-(23 + 40);</br>' .
+        "Х = $total.</p>" .
+        '<h3>Ответ</h3>' .
         "<p>Красками выполнено $paint рисунков.</p>";
 }
 
@@ -41,16 +42,16 @@ function task3()
 {
     define("CONSTANT", "Моя константа");
     if (defined("CONSTANT")) {
-        echo '<p>Значение "CONSTANT" - "'.CONSTANT.'"!</p>';
+        echo '<p>Значение "CONSTANT" - "' . CONSTANT . '"!</p>';
     } else {
         echo '<p>Константа "CONSTANT" не найдена!</p>';
     }
     $newValue = 'Новое значение';
     define("CONSTANT", $newValue);
     if (CONSTANT != $newValue) {
-        echo '<p> CONSTANT = "'.CONSTANT.'", это старое значние</p>';
+        echo '<p> CONSTANT = "' . CONSTANT . '", это старое значние</p>';
     } else {
-        echo '<p> CONSTANT = "'.CONSTANT.'", это новое зачение</p>';
+        echo '<p> CONSTANT = "' . CONSTANT . '", это новое зачение</p>';
     }
 }
 
@@ -80,26 +81,11 @@ function task5()
     $day = rand(0, 10);
     echo "<p>День: $day </p>";
 
-    switch ($day) {
-        case 1:
+    switch (1) {
+        case (($day >= 1) & ($day <= 5)):
             echo '<p>Это рабочий день</p>';
             break;
-        case 2:
-            echo '<p>Это рабочий день</p>';
-            break;
-        case 3:
-            echo '<p>Это рабочий день</p>';
-            break;
-        case 4:
-            echo '<p>Это рабочий день</p>';
-            break;
-        case 5:
-            echo '<p>Это рабочий день</p>';
-            break;
-        case 6:
-            echo '<p>Это выходной день</p>';
-            break;
-        case 7:
+        case (($day >= 6) & ($day <= 7)):
             echo '<p>Это выходной день</p>';
             break;
         default:
@@ -112,27 +98,27 @@ function task5()
  */
 function task6()
 {
-    $bmw['model']='X5';
-    $bmw['speed']='120';
-    $bmw['doors']='5';
-    $bmw['year']='2015';
+    $bmw['model'] = 'X5';
+    $bmw['speed'] = '120';
+    $bmw['doors'] = '5';
+    $bmw['year'] = '2015';
 
-    $tayota['model']='Camry';
-    $tayota['speed']='110';
-    $tayota['doors']='5';
-    $tayota['year']='2014';
+    $tayota['model'] = 'Camry';
+    $tayota['speed'] = '110';
+    $tayota['doors'] = '5';
+    $tayota['year'] = '2014';
 
-    $opel['model']='Astra';
-    $opel['speed']='115';
-    $opel['doors']='5';
-    $opel['year']='2016';
+    $opel['model'] = 'Astra';
+    $opel['speed'] = '115';
+    $opel['doors'] = '5';
+    $opel['year'] = '2016';
 
     $cars['bmw'] = $bmw;
     $cars['tayota'] = $tayota;
     $cars['opel'] = $opel;
 
     foreach ($cars as $key => $value) {
-        echo "<p style='border:1px solid; '>CAR $key<br>".
+        echo "<p style='border:1px solid; '>CAR $key<br>" .
             "{$value['model']} {$value['speed']} {$value['doors']} {$value['year']}</p>";
     }
 }
@@ -149,10 +135,10 @@ function task7()
         }
         echo '<tr>';
         for ($col = 1; $col < 11; $col++) {
-            $data = $row*$col;
-            if (($col == 1)||($row == 1)) {
+            $data = $row * $col;
+            if (($col == 1) || ($row == 1)) {
                 $dataStr = strval($data);
-            } elseif ($data%2 ==0) {
+            } elseif ($data % 2 == 0) {
                 $dataStr = "($data)";
             } else {
                 $dataStr = "[$data]";
@@ -179,29 +165,86 @@ function task8()
     print_r($arrStr);
     echo '</pre></div>';
     echo '<p>';
-    $len = count($arrStr);
-    $i = 0;
+    $len = count($arrStr) - 1;
+    $i = $len;
     $res = '';
     do {
-        if ($i == $len - 2) {
-            $res .=$arrStr[$i];
+        if ($i == 0) {
+            $res .= $arrStr[$i];
         } else {
-            $res .=$arrStr[$i].'*';
+            $res .= $arrStr[$i] . '*';
         }
-        $i++;
-    } while ($i < $len);
+        $i--;
+    } while ($i >= 0);
     echo "<p>$res</p>";
 }
 
+/**
+ * @param $num - task number
+ */
 function printTask($num)
 {
-    echo '<div style="border:1px solid; margin: 10px 20px; padding: 10px ">'.
+    echo '<div class = "bl" ">' .
         "<h1>Задание #$num</h1>";
-    $task = 'task'.$num;
+    $task = 'task' . $num;
     $task();
     echo '</div>';
 }
 
+htmlPage('start');
 for ($task = 1; $task < 9; $task++) {
     printTask($task);
+}
+htmlPage('end');
+
+//  site layout
+function htmlPage($part)
+{
+    switch ($part) {
+        case 'start':
+            echo '
+<!doctype html>
+
+<html>
+    <head>
+        <title>Homework1</title>
+        <meta charset="utf-8">
+        <style>
+            body{
+                background: #fefefe; 
+            }
+            .main{
+                margin: 20px; 
+                border: 1px solid #ccc; 
+                padding: 10px; 
+            }
+            .bl{
+                padding: 5px 10px; 
+                border:1px solid #ddd; 
+                background: #fffde1; 
+                border-radius: 3px;
+                margin: 20px;
+                width: 480px;
+                word-wrap: break-word;
+            }
+
+            .main {
+                display:flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class = "main">
+';
+            break;
+        case 'end':
+            echo '
+        </div>
+    </body>
+</html>';
+            break;
+    }
 }
