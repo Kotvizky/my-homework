@@ -275,7 +275,7 @@ function updUser($date)
     $name = $connection->real_escape_string($date['userName']);
     $age = $connection->real_escape_string($date['age']);
     $baseName = $date['baseName'];
-    $description = $connection->real_escape_string($date['description']);
+    $description = $connection->real_escape_string(strip_tags($date['description']));
     if ($baseName == '') {
         $connection->query("UPDATE users set name = '$name', description = '$description', age = '$age' where id = '$id'");
     } else {
