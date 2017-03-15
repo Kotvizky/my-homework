@@ -1,5 +1,5 @@
 <div class="form-container">
-    <form class="form-horizontal" action="http://homeworks/homework3.php"   method="POST" >
+    <form class="form-horizontal" method="POST" >
         <div class="form-group">
             <label for="inputEmail3" class="col-sm-2 control-label">Логин</label>
             <div class="col-sm-10">

@@ -25,10 +25,10 @@ $smarty->assign(
         'brand' => 'Homework3',
         'indexAction' => 'login',
         'menuAction' => '',
-        'homepage' => 'http://homeworks/homework3.php',
+        'homepage' => '../homework3.php',
         'linkAction' => $aAct,
         'warning' => '',
-        'photos' => 'http://homeworks/photos',
+        'photos' => '../photos',
     )
 );
 
