@@ -1,10 +1,18 @@
 <?php
 
-$tpl = '<p>The variable \'{var}\' has value {val}. </p>"';
-$res = ['var' => 'Name','val' => 15];
-echo "<pre>";
-print_r($res);
-foreach ($res as $key => $value) {
-    $tpl = mb_ereg_replace('\{\s*' . $key .'\s*\}', $value, $tpl);
-}
-echo $tpl;
+
+require_once('docXML.php');
+require_once('templates.php');
+use DataWork\DocXML,DataWork\Templates;
+
+//define('TPL', 'tpl'); // tpl folder
+
+DocXML::createXML('./data/data.xml');
+
+$dom = new DOMDocument('1.0', 'UTF-8');
+
+$docXML = new DocXML('./data/data.xml');
+
+$article = Templates::parseTpl('body', ['article' => $docXML->getContent()]);
+
+echo Templates::parseTpl('head', ['body' => $article, 'htmlTitle' => 'Homework4']);

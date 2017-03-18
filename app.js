@@ -3,7 +3,7 @@ var bs = require("browser-sync").create();
 
 // Start a Browsersync proxy
 bs.init({
-    proxy: "http://homeworks/homework3.php"
+    proxy: "http://homeworks"
 });
 
-bs.watch('*.php').on('change', bs.reload);
+bs.watch(['homework4/*.php', 'homework4/tpl/*.*']).on('change', bs.reload);
