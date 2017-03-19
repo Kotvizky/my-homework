@@ -1,1 +1,1 @@
-<div class="bl">{article}</div>
+<div class="bl"><h3>Task # {TaskNum}</h3><hr>{article}</div>

@@ -1,3 +1,5 @@
 .idea
 node_modules
 smarty/templates_c/
+homework4/data/
+test.php

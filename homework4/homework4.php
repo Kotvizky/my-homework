@@ -5,7 +5,8 @@ namespace DataWork;
 
 require_once('class/docXML.php');
 require_once('class/docJSON.php');
-require_once('class/docIni.php');
+require_once('class/docCsv.php');
+require_once('class/getCurl.php');
 require_once('class/templates.php');
 
 DocXML::createXML('./data/data.xml');
@@ -36,11 +37,23 @@ $json->saveRand();
 
 $docXML = new DocXML('./data/data.xml');
 
-$docIni = new DocIni('./data/data.ini', 50);
+$docCsv = new DocCsv('./data/data.csv', 50);
 
-$articles = Templates::parseTpl('body', ['article' => $docXML->getContent() ]);
-$articles .= Templates::parseTpl('body', ['article' => $json->show() . '<hr>' . $json->compare() ]);
-$articles .= Templates::parseTpl('body', ['article' => $docIni->count() ]);
+$url = 'https://en.wikipedia.org/w/api.php?action=query&titles=Main%20Page&prop=revisions&rvprop=content&format=json';
+
+$getCurl = new GetCurl($url);
+
+$articles = Templates::parseTpl('body', ['article' => $docXML->getContent(),
+    'TaskNum' => 1 ]);
+$articles .= Templates::parseTpl('body', ['article' => $json->show() . '<hr>' . $json->compare(),
+    'TaskNum' => 2 ]);
+$articles .= Templates::parseTpl('body', ['article' => $docCsv->count(),
+    'TaskNum' => 3 ]);
+$articles .= Templates::parseTpl('body', ['article' =>
+    Templates::parseTpl('pageInfo', ['pageId' => $getCurl->getPageInfo()['pageId'],
+            'title' => $getCurl->getPageInfo()['title']]),
+    'TaskNum' => 4 ]);
+
 
 
 

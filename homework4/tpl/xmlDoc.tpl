@@ -1,17 +1,17 @@
 <div class = "title">
-    <h3>
+    <h4>
         Title
-    </h3>
+    </h4>
     <dl>{title}<dl>
 </div >
 <div class="address">
-    <h3>
+    <h4>
         Shipping
-    </h3>
+    </h4>
     <dl>{addressShipping}</dl>
-    <h3>
+    <h4>
         Billing
-    </h3>
+    </h4>
     <dl>{addressBilling}</dl>
 </div>
 <div><strong>DeliveryNotes: </strong>{DeliveryNotes}</div>
