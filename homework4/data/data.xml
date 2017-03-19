@@ -28,7 +28,7 @@
       <ProductName>Baby Monitor</ProductName>
       <Quantity>2</Quantity>
       <USPrice>39.98</USPrice>
-      <Comment>1999-05-21</Comment>
+      <ShipDate>1999-05-21</ShipDate>
     </Item>
   </Items>
 </PurchaseOrderNumber>

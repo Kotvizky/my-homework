@@ -43,12 +43,16 @@ class DocXML
     private function getTableItems($data)
     {
         $content = '';
-        $td =['ProductName', 'Quantity', 'USPrice', 'Comment',];
+        $td =['ProductName', 'Quantity', 'USPrice','ShipDate' ,'Comment',];
         foreach ($data as $value) {
             $items = array();
             $items['PartNumber'] = $value->attributes()['PartNumber'];
             foreach ($td as $rowName) {
-                $items[$rowName] = $value->$rowName;
+                if (($rowName == 'ShipDate') && !empty($value->$rowName)) {
+                    $items[$rowName] = $this->convertData($value->$rowName);
+                } else {
+                    $items[$rowName] = $value->$rowName;
+                }
             }
             $content .= Templates::parseTpl('rowItems', $items);
         }
@@ -61,14 +65,21 @@ class DocXML
         foreach ($date as $key => $value) {
             if (!is_array($value)) {
                 if ($key == 'OrderDate') {
-                    $date = explode('-', $value);
-                    $value = "{$date[2]}.{$date[1]}.{$date[0]}";
+                    $value = $this->convertData($value);
                 }
                 $content .= Templates::parseTpl('listElementXml', ['dt' => $key, 'dd' => $value]);
             }
         }
         return $content;
     }
+
+    private function convertData($date)
+    {
+        $date = explode('-', $date);
+        return "{$date[2]}.{$date[1]}.{$date[0]}";
+    }
+
+
 
     public function showXML()
     {
@@ -128,7 +139,7 @@ class DocXML
                 'ProductName'=>'Baby Monitor',
                 'Quantity'=>'2',
                 'USPrice'=>'39.98',
-                'Comment'=>'1999-05-21',
+                'ShipDate'=>'1999-05-21',
             ],
         ];
 
