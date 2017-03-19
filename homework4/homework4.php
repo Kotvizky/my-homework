@@ -3,12 +3,10 @@ namespace DataWork;
 
 //use DOMDocument;
 
-require_once('docXML.php');
-require_once('docJSON.php');
-require_once('templates.php');
-//use DataWork\DocXML,DataWork\docJSON,DataWork\Templates;
-
-//define('TPL', 'tpl'); // tpl folder
+require_once('class/docXML.php');
+require_once('class/docJSON.php');
+require_once('class/docIni.php');
+require_once('class/templates.php');
 
 DocXML::createXML('./data/data.xml');
 
@@ -38,8 +36,12 @@ $json->saveRand();
 
 $docXML = new DocXML('./data/data.xml');
 
-$articles = Templates::parseTpl('body', ['article' => $docXML->getContent()]);
-$articles .= Templates::parseTpl('body', ['article' => $json->show() . $json->compare() ]);
+$docIni = new DocIni('./data/data.ini', 50);
+
+$articles = Templates::parseTpl('body', ['article' => $docXML->getContent() ]);
+$articles .= Templates::parseTpl('body', ['article' => $json->show() . '<hr>' . $json->compare() ]);
+$articles .= Templates::parseTpl('body', ['article' => $docIni->count() ]);
+
 
 
 echo Templates::parseTpl('head', ['body' => $articles, 'htmlTitle' => 'Homework4']);

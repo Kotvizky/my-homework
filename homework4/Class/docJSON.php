@@ -69,6 +69,9 @@ class DocJSON
             }
             $result .= "\n\nАдрес: $level\n" . print_r($arrCompare, 1);
         }
+        if ($result == '') {
+            $result = "<p>Массивы одинаковы</p>";
+        }
         return $result;
     }
 

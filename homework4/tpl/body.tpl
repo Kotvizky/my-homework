@@ -1,3 +1,1 @@
-    <div class = "main">
-        <div class="bl">{article}</div>
-    </div>
+<div class="bl">{article}</div>

@@ -9,6 +9,8 @@
 </head>
 
 <body>
+    <div class = "main">
 {body}
+    </div>
 </body>
 </html>
