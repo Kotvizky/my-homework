@@ -2,17 +2,21 @@
     <h4>
         Title
     </h4>
-    <dl>{title}<dl>
+    <dl class="xm-title">{title}</dl>
 </div >
-<div class="address">
-    <h4>
-        Shipping
-    </h4>
-    <dl>{addressShipping}</dl>
-    <h4>
-        Billing
-    </h4>
-    <dl>{addressBilling}</dl>
+<div class="address-vraper">
+    <div class="address-left">
+        <h4>
+            Shipping
+        </h4>
+        <dl >{addressShipping}</dl>
+    </div>
+    <div class="address-right">
+        <h4>
+            Billing
+        </h4>
+        <dl>{addressBilling}</dl>
+    </div>
 </div>
 <div><strong>DeliveryNotes: </strong>{DeliveryNotes}</div>
 <table>
