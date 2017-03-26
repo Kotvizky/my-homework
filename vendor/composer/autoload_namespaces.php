@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Twig_' => array($vendorDir . '/twig/twig/lib'),
+    'HW5' => array($baseDir . '/classes'),
 );
