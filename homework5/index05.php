@@ -15,4 +15,4 @@ $car = new Engine(50);
 $car->start();
 $car->move(300);
 
-echo "<pre>" . print_r($car->getLog(), 1) . "</pre>";
+echo "<pre>" . print_r($car->getLog(), 1) . "!</pre>";

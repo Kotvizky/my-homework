@@ -1,8 +1,6 @@
 .idea
 *
 !homework5/*
-!homework5/
-!classes/*
-!classes/
 !composer.json
 !.htassess
+!/classes/*
