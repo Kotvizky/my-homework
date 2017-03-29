@@ -1,6 +1,5 @@
 .idea
-*
-!homework5/*
-!composer.json
-!.htassess
-!/classes/*
+node_modules/
+smarty/
+homework4/data/
+vendor/twigs/

@@ -1,0 +1,30 @@
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+.form-container{
+  margin-left: auto;
+  margin-right: auto;
+  /*margin-top: 25%;*/
+  width: 450px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.form-horizontal {
+  /*width: 45%;*/
+}
+
+.form-container h3{
+  text-align: left;
+  font-size: large;
+}
+
+pre {
+  text-align: left;
+}

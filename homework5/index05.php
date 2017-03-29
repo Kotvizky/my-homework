@@ -8,11 +8,29 @@
 
 require '../vendor/autoload.php';
 
-use \HW5\Engine;
+use \HW5\Car;
 
-$car = new Engine(50);
+$loader = new Twig_Loader_Filesystem('../views/HW5');
+$twig = new Twig_Environment($loader);
 
-$car->start();
-$car->move(300);
 
-echo "<pre>" . print_r($car->getLog(), 1) . "!</pre>";
+$message = false;
+$form = false;
+
+if (!empty($_POST)) {
+    $form = $_POST;
+    $car = new Car($form['transmission'], $form['power']);
+    $car->drive($form['speed'], $form['distance']);
+
+    $message = print_r($car->getLog(), 1);
+}
+
+echo $twig->render('index.html',
+    array(
+        'title'=>'My car',
+        'brand'=>'My car',
+        'message' => $message,
+        'form' => $form,
+    )
+);
+

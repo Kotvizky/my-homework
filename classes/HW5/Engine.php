@@ -21,9 +21,9 @@ class Engine
     protected $maxSpeed;
 
     protected $temperature = 25;
-    protected $start = false;
+    private $start = false;
     protected $cooling = false;
-    protected $distance = 0;
+    private $distance = 0;
     protected $log = [];
 
     public function __construct($power)
@@ -37,12 +37,12 @@ class Engine
         return $this->power;
     }
 
-    public function start()
+    protected function start()
     {
         $this->start = true;
     }
 
-    public function stop()
+    protected function stop()
     {
         $this->start = false;
     }
@@ -54,7 +54,6 @@ class Engine
 
     public function move($distance)
     {
-        $this->log = [];
         if ($this->start) {
             $this->distance = 0;
             while ($distance > $this->distance) {
