@@ -1,0 +1,26 @@
+<table class="table table-bordered">
+    <tr>
+        {% for cell in head %}
+            <th>{{ cell }}</th>
+        {% endfor %}
+    </tr>
+    {% for row in rows %}
+        <tr>
+            {%  for cell in row %}
+                {% if cell.link %}
+                    <td>
+                        <a href="{{ cell.link }}">{{ cell.comment }}</a>
+                    </td>
+                {% elseif cell.img %}
+                    <td>
+                        <div class="form-group">
+                            <img  width="200" height="200" src="{{ cell.img }}" alt="">
+                        </div>
+                    </td>
+                {% else %}
+                    <td>{{ cell }}</td>
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>

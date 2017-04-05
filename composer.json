@@ -5,6 +5,9 @@
   "autoload": {
     "psr-0": {
       "HW5": "classes/"
+    },
+    "psr-4":{
+      "HW52\\": "homework52/app/"
     }
   }
 }

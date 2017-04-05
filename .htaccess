@@ -1,1 +1,11 @@
-DirectoryIndex \homework5\index05.php
+DirectoryIndex \homework52\index.php
+AddDefaultCharset utf-8
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ homework52/index.php?route=$1 [L,QSA]
+
+
+
+#DirectoryIndex \homework5\index05.php

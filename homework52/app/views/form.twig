@@ -1,0 +1,51 @@
+<div class="form-container">
+    <form class="form-horizontal"
+         {% for key, value in attributes %}
+            {{ key }}="{{ value }}"
+          {% endfor %}
+        >
+        {% if imageLink != '' %}
+            <div class="form-group">
+                <img src="{{ imageLink }}" alt="">
+            </div>
+        {% endif %}
+
+
+    {% for item in items %}
+            {% if item.type in ['text','password','date'] %}
+                <div class="form-group">
+                    <label for="{{ item.name }}" class="col-sm-2 control-label">{{ item.label }}</label>
+                    <div class="col-sm-10">
+                        <input type="{{ item.type }}" name="{{ item.name }}" class="form-control"
+                               id="{{ item.name }}" value = "{{ item.value }}" placeholder="{{ item.placeholder }}">
+                    </div>
+                </div>
+            {% endif %}
+            {% if item.type == 'textarea' %}
+                <div class="form-group">
+                    <label for="descr" class="col-sm-2 control-label">{{ item.label }}</label>
+                    <div class="col-sm-10">
+                        <textarea rows="3" cols="45" name = "{{ item.name }}" class="form-control"
+                                  id="{{ item.name }}" >{{ item.value }}</textarea>
+                    </div>
+                </div>
+            {% endif %}
+            {% if item.type =='file' %}
+                <div class="form-group">
+                    <input type="hidden" name="MAX_FILE_SIZE" value="3000000">
+                    <input type="file" name = "userFile" hidden>
+                </div>
+            {% endif %}
+        {% endfor %}
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">{{ button.text }}</button>
+                {% if button.questionLinkText %}
+                <br><br>
+                {{ button.question }} <a href={{ button.questionLink }}>{{ button.questionLinkText }}</a>
+                {% endif %}
+            </div>
+        </div>
+    </form>
+</div>

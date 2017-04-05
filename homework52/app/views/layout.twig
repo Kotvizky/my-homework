@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>{{ layout.title }}</title>
+    <link rel="stylesheet" href="{{ layout.homeDir }}assets/template/css/bootstrap.css"/>
+    <link rel="stylesheet" href="{{ layout.homeDir  }}assets/template/css/bootstrap-theme.css"/>
+    <link rel="stylesheet" href="{{ layout.homeDir  }}assets/template/css/hw52.css"/>
+</head>
+<body>
+
+{% include 'navbar.twig' %}
+
+<div class="jumbotron">
+    <div class="container">
+        {% block title %}
+        {% endblock %}
+    </div>
+</div>
+
+<div class="container content">
+    {% block message %}
+    {% endblock %}
+    {% block content %}
+    {% endblock %}
+</div>
+
+<div class="navbar-fixed-bottom row-fluid">
+    <div class="container">
+        &copy; 2017 Y.Kotvitskiy
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="/assets/template/js/bootstrap.min.js"></script>
+</body>
+</html>
