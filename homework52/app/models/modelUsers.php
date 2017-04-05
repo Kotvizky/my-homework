@@ -13,7 +13,7 @@ class ModelUsers extends Model
 
     public static function addUser()
     {
-        $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_MAGIC_QUOTES);
         if (($post['login'] == $_POST['login']) && ($post['password'] == $_POST['password'])) {
             try {
                 $pw_hash = password_hash($post['password'], self::PASS_METHOD);
@@ -70,12 +70,50 @@ class ModelUsers extends Model
         return false;
     }
 
-    public static function getUsers($fields = ' * ', $where = '1 = 1')
+    public static function getCookie($login)
     {
-        $return = false;
+        $cookie = $login . rand(0, 100);
+        $cookie_hash = password_hash($cookie, self::PASS_METHOD);
         try {
             $statement = self::pdo()
-                ->query("select $fields from users where $where;");
+                ->query("update users set cookie = '$cookie_hash' where login = '$login';");
+        } catch (PDOException $e) {
+            die("Error: " . $e->getMessage());
+        }
+        if ($statement && ($statement->rowCount() == 1)) {
+            return $cookie_hash;
+        } else {
+            return false;
+        }
+    }
+
+    public static function checkCookie()
+    {
+        $data = filter_input_array(INPUT_COOKIE, FILTER_SANITIZE_MAGIC_QUOTES);
+        try {
+            $statement = self::pdo()
+                ->query("select id,login from users 
+                    where login = '{$data['login']}' and cookie = '{$data['hash']}';");
+            $users = $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            die("Error: " . $e->getMessage());
+        }
+        if ((!empty($users))) {
+            return $users[0];
+        } else {
+            return false;
+        }
+    }
+
+    public static function getUsers($fields = ' * ', $where = '1 = 1', $order = '')
+    {
+        $return = false;
+        if ($order) {
+            $order = " order by $order";
+        }
+        try {
+            $statement = self::pdo()
+                ->query("select $fields from users where $where $order;");
             $users = $statement->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             die("Error: " . $e->getMessage());
@@ -106,17 +144,37 @@ class ModelUsers extends Model
         return $return;
     }
 
+    public function updateUser($updateFields,$id,$where = '')
+    {
+        $id = (int)$id;
+        $statement = false;
+        if ((int)$id) {
 
-    public static function updateUser()
+            $sql = "update users 
+                set
+                 $updateFields
+                where 
+                id = $id 
+                and $where";
+
+            try {
+                $statement = self::pdo()->query($sql);
+            } catch (PDOException $e) {
+                die("Error: " . $e->getMessage());
+            }
+        }
+        if ($statement) {
+            $statement = $statement->rowCount();
+        }
+        return $statement;
+    }
+
+    public static function updateUserByPost()
     {
 
-        $args = array(
-            'name' => FILTER_SANITIZE_STRING,
-            'description' => FILTER_SANITIZE_STRING,
-        );
-
-        $post = filter_input_array(INPUT_POST, $args);
-        $post['age'] = date("Y-m-d", strtotime($post['age']));
+        $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_MAGIC_QUOTES);
+        $post['description'] = filter_var($post['description'], FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+        $post['age'] = date("Y-m-d", strtotime($_POST['age']));
 
         if (!empty($_FILES)) {
             $baseFileName = basename(filter_var($_FILES['userFile']['name'], FILTER_SANITIZE_STRING));
@@ -142,13 +200,17 @@ class ModelUsers extends Model
             }
         }
 
-
-
         if ($post['fileName'] == 0) {
             $fileName ='';
         } else {
             $fileName = ", photo = '{$post['fileName']}' ";
         }
+
+        if ($post['age'] == date('1970-01-01')) {
+            $post['age'] = 'null';
+        }
+
+
         $sql = "update users 
                 set 
                   name = '{$post['name']}', 
@@ -156,7 +218,6 @@ class ModelUsers extends Model
                   age = '{$post['age']}'
                   $fileName
                 where id = '{$_SESSION['idUser']}'";
-
 
         try {
             $statement = self::pdo()->query($sql);

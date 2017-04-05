@@ -5,13 +5,15 @@ namespace HW52\Controllers;
 use \HW52\Core\Controller;
 use \HW52\Models\ModelUsers;
 use \HW52\Config;
+use \DateTime;
 
 class ControllerUsers extends Controller
 {
     public function actionIndex()
     {
-        $users = ModelUsers::getUsers('login, name, age, description, photo, id ');
+        $users = ModelUsers::getUsers('login, name, age, description, photo, id ', '1 = 1', 'age');
 
+        $dateNow = new DateTime("now");
         for ($i = 0; $i < count($users); $i++) {
             if ($users[$i]['photo']) {
                 $users[$i]['photo'] = [ 'img' => Config::homeDir(). Config::$photoDir . $users[$i]['photo'] ];
@@ -23,6 +25,18 @@ class ControllerUsers extends Controller
                 'comment'   =>  'Удалить пользователя?',
             ];
             unset($users[$i]['id']);
+
+            if ($users[$i]['age']) {
+                $intervat = $dateNow->diff(new DateTime($users[$i]['age']));
+                if (($intervat->y) < 18) {
+                    $users[$i]['age'] = 'Несовершеннолетний';
+                } else {
+                    $users[$i]['age'] = 'Совершеннолетний';
+                }
+            } else {
+                $users[$i]['age'] = 'Неизвестно';
+            }
+
         }
 
         $TableData = [
@@ -49,12 +63,34 @@ class ControllerUsers extends Controller
     public function actionDelete($id)
     {
         $id = (int)($id);
+        $result = false;
+        $logoff = false;
         if ($id) {
             $user = ModelUsers::getUsers('id,login', "id = $id");
             if ($user && (count($user) == 1)) {
                 $user = $user[0];
                 $result = ModelUsers::deleteUsers($user['id']);
-                if ($result == 1) {
+            }
+            $logoff = $user['login'] == $_SESSION['user'];
+        }
+        switch (1) {
+            case (($result == 1) && $logoff):
+                unset($_SESSION['user']);
+                unset($_SESSION['id']);
+                $_SESSION['message'] = "Пользователь {$user['login']} успешно удален!";
+                header('Location: /');
+                break;
+            case (($result == 1) && !$logoff):
+                $_SESSION['message'] = "Пользователь {$user['login']} успешно удален!";
+                header('Location: /users');
+                break;
+            default:
+                $_SESSION['message'] = "Произошла ошибка при удалении!";
+                header('Location: /users');
+                return true;
+        }
+
+/*                if ($result == 1) {
                     if ($user['login'] == $_SESSION['user']) {
                         session_destroy();
                         session_start();
@@ -66,10 +102,7 @@ class ControllerUsers extends Controller
                         header('Location: /users');
                         return true;
                     }
-                }
-            }
-        }
-        $_SESSION['message'] = "При удалении пользователя произошла ошибка!";
-        header('Location: /users');
+                }*/
+        return true;
     }
 }

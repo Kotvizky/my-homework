@@ -10,6 +10,8 @@ class Config
     public static $dbPassword = '';
     public static $photoDir ='photos/';
     public static $image = [ 'height' =>250 , 'width' => 250];
+    public static $adminControllers = ['users','files'];
+
     public static function homeDir()
     {
         return substr(str_replace('index.php', '', $_SERVER['PHP_SELF']), 1);

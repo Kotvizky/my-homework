@@ -49,7 +49,6 @@ class ControllerRegistration extends Controller
                 'content' => $this->view->viewForm($formData),
             )
         );
-
     }
 
 }

@@ -11,12 +11,11 @@ class Controller
     public function __construct()
     {
         $this->view = new View();
-        session_start();
     }
 
-//    public function actionIndex()
-//    {
-//        echo 'controllerIndex';
-//    }
+    public function message($message)
+    {
+        $_SESSION['message'] = $message;
+    }
 
 }

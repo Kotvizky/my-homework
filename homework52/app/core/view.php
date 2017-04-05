@@ -15,9 +15,6 @@ class View
     public function __construct()
     {
         $loader = new Twig_Loader_Filesystem(dirname(__DIR__).'/views');
-//        $twig = new Twig_Environment($loader,
-//            array( 'cache' => dirname(__DIR__).'/cache'
-//        ));
 
         $twig = new Twig_Environment($loader);
         $this->twig = $twig;

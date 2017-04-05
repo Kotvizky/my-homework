@@ -9,8 +9,13 @@ class ControllerLogoff extends Controller
 
     public function actionIndex()
     {
-        session_destroy();
+        unset($_SESSION['user']);
+        unset($_SESSION['idUser ']);
+
         header('Location: /');
+
+        setcookie("hash", '', time()+60);
+        setcookie("login", '', time()+60);
     }
 
 }

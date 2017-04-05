@@ -11,6 +11,7 @@ class ControllerMain extends Controller
     public function actionIndex()
     {
         if (empty($_POST)) {
+
             $formData = [
                 'attributes' => [
                     'name' => 'Login',
@@ -37,6 +38,13 @@ class ControllerMain extends Controller
         } else {
             $user = ModelUsers::loginCheck();
             if ($user) {
+                $login = $user['login'];
+                $expires = time()+3600 * 24 *14;
+                $cookie = ModelUsers::getCookie($login);
+
+                setcookie("hash", $cookie, $expires);
+                setcookie("login", $login, $expires);
+
                 $_SESSION['user'] = $user['login'];
                 $_SESSION['idUser'] = $user['id'];
                 header('Location: profile');

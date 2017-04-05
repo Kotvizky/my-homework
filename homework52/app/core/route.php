@@ -3,6 +3,8 @@
 namespace HW52\Core;
 
 use \ReflectionMethod;
+use \HW52\Config;
+use \HW52\Models\ModelUsers;
 
 class Route
 {
@@ -13,6 +15,18 @@ class Route
      */
     public static function start()
     {
+
+        session_start();
+
+        if (!empty($_COOKIE) && $_COOKIE['login'] && $_COOKIE['hash']) {
+            $user = ModelUsers::checkCookie();
+            if ($user) {
+                $_SESSION['user'] = $user['login'];
+                $_SESSION['idUser'] = $user['id'];
+                //print_r($_SESSION); print_r($user);die();
+            }
+        }
+
         $controllerName = 'Main';
         $actionName = 'Index';
 
@@ -30,6 +44,12 @@ class Route
             $actionName = $routes[2];
         }
 
+        if (!self::checkAccess($controllerName)) {
+            $_SESSION['message'] = 'Для доступа необходима регистрация!';
+            header('Location: /');
+            exit();
+        }
+
         $controllerName = 'Controller' . ucfirst($controllerName);
         $actionName = 'action' . ucfirst($actionName);
 
@@ -37,6 +57,7 @@ class Route
         if (!empty($routes[3])) {
             $id = $routes[3];
         }
+
 
         $controller_class = self::CONTROLLER_NAMESPACE.$controllerName;
         $routeExist = false;
@@ -59,9 +80,18 @@ class Route
         }
     }
 
+    protected function checkAccess($controller)
+    {
+        $access = true;
+        if ((!$_SESSION['user']) && in_array($controller, Config::$adminControllers)) {
+            $access = false;
+        }
+        return $access;
+    }
+
+
     public static function ErrorPage404()
     {
-        echo '<br><br>404'; die();
         $host = 'http://'.$_SERVER['HTTP_HOST'].'/';
         header('HTTP/1.1 404 Not Found');
         header('Status: 404 Not Found');
