@@ -1,5 +1,3 @@
-
-
-var action = $("#navbar").data("action");
-//console.log(action);
-$("#navbar [href= '" + action + "']").parent().addClass("active");
+var link = window.location.pathname;
+if (link != "/") link=link.split("/")[1];
+$("#navbar [href= '" + link + "']").parent().addClass("active");

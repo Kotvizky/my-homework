@@ -1,4 +1,4 @@
-DirectoryIndex \homework52\index.php
+DirectoryIndex /homework52/index.php
 AddDefaultCharset utf-8
 RewriteEngine On
 RewriteBase /
