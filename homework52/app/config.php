@@ -16,10 +16,12 @@ class Config
             'secretKey' => "6Lcs2hsUAAAAADacMoSzLgHR5NVQgiqPEffrr2PD",
             'lang'      => 'ru',
         ];
+    public static $emailFrom = 'lstest2017@gmail.com';
+    public static $watermarkFile = 'image45.jpg';
 
     public static function homeDir()
     {
-        return substr(str_replace('index.php', '', $_SERVER['PHP_SELF']), 1);
+        return str_replace('index.php', '', $_SERVER['PHP_SELF']);
     }
 
 }

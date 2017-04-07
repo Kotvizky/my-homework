@@ -16,8 +16,16 @@ class View
     {
         $loader = new Twig_Loader_Filesystem(dirname(__DIR__).'/views');
         $twig = new Twig_Environment($loader, array('cache' => dirname(__DIR__).'/cache'));
-        $twig = new Twig_Environment($loader);
+        //$twig = new Twig_Environment($loader);
         $this->twig = $twig;
+
+        $function = new \Twig_Filter('var_dump',
+            function($var)
+            {
+                var_dump($var);
+            });
+
+        $twig->addFilter($function);
     }
 
     public function viewForm($data)
@@ -59,12 +67,13 @@ class View
         if ($registration) {
             $data['navBar']['items'] =[
                 'left' => [
-                    ['link' => 'profile', 'desc' => 'Профиль'],
-                    ['link' => 'users', 'desc' => 'Пользователи'],
-                    ['link' => 'files', 'desc' => 'Файлы'],
+                    ['link' => '/profile', 'desc' => 'Профиль'],
+                    ['link' => '/users', 'desc' => 'Пользователи'],
+                    ['link' => '/email', 'desc' => 'Почта'],
+                    ['link' => '/files', 'desc' => 'Файлы'],
                 ],
                 'right' => [
-                    ['link' => 'logoff', 'desc' => 'Выход'],
+                    ['link' => '/logoff', 'desc' => 'Выход'],
                 ],
             ];
         } else {

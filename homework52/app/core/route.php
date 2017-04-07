@@ -23,7 +23,6 @@ class Route
             if ($user) {
                 $_SESSION['user'] = $user['login'];
                 $_SESSION['idUser'] = $user['id'];
-                //print_r($_SESSION); print_r($user);die();
             }
         }
 
@@ -57,7 +56,6 @@ class Route
         if (!empty($routes[3])) {
             $id = $routes[3];
         }
-
 
         $controller_class = self::CONTROLLER_NAMESPACE.$controllerName;
         $routeExist = false;

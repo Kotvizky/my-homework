@@ -7,19 +7,25 @@
     {% for row in rows %}
         <tr>
             {%  for cell in row %}
+                <td>
                 {% if cell.link %}
-                    <td>
-                        <a href="{{ cell.link }}">{{ cell.comment }}</a>
-                    </td>
+                    {% if cell.comment  %}
+                         <a href="{{ cell.link }}">{{ cell.comment }}</a>
+                    {% else %}
+                        <ul>
+                        {% for linkItem in cell.link %}
+                            <li> <a href="{{ linkItem.link }}">{{ linkItem.comment }}</a> </li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
                 {% elseif cell.img %}
-                    <td>
                         <div class="form-group">
                             <img  width="200" height="200" src="{{ cell.img }}" alt="">
                         </div>
-                    </td>
                 {% else %}
-                    <td>{{ cell }}</td>
+                   {{ cell }}
                 {% endif %}
+                </td>
             {% endfor %}
         </tr>
     {% endfor %}

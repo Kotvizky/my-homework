@@ -26,7 +26,8 @@ class ControllerUsers extends Controller
             ];
             unset($users[$i]['id']);
 
-            if ($users[$i]['age']) {
+            echo $users[$i]['age'];
+            if ($users[$i]['age'] != "0000-00-00") {
                 $intervat = $dateNow->diff(new DateTime($users[$i]['age']));
                 if (($intervat->y) < 18) {
                     $users[$i]['age'] = 'Несовершеннолетний';
@@ -36,7 +37,6 @@ class ControllerUsers extends Controller
             } else {
                 $users[$i]['age'] = 'Неизвестно';
             }
-
         }
 
         $TableData = [
@@ -90,19 +90,6 @@ class ControllerUsers extends Controller
                 return true;
         }
 
-/*                if ($result == 1) {
-                    if ($user['login'] == $_SESSION['user']) {
-                        session_destroy();
-                        session_start();
-                        $_SESSION['message'] = "Пользователь {$user['login']} успешно удален!";
-                        header('Location: /');
-                        return true;
-                    } else {
-                        $_SESSION['message'] = "Пользователь {$user['login']} успешно удален!";
-                        header('Location: /users');
-                        return true;
-                    }
-                }*/
         return true;
     }
 }
