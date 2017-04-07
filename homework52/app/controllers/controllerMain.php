@@ -12,34 +12,7 @@ class ControllerMain extends Controller
 
     public function actionIndex()
     {
-        if (empty($_POST)) {
-
-            $formData = [
-                'attributes' => [
-                    'name' => 'Login',
-                    'method' => 'Post',
-                ],
-                'items'  =>  [
-                    ['type' =>'text', 'name' => 'login', 'label' =>'Логин', 'placeholder' => 'Логин',],
-                    ['type' =>'password', 'name' => 'password', 'label' =>'Пароль', 'placeholder' => 'Пароль',],
-                    ['type' => 'reCaptcha', "siteKey"   => Config::$reCaptcha['siteKey'],
-                        "lang" => Config::$reCaptcha['lang'],]
-                ],
-                'button' => [
-                    'text'              =>  'Войти',
-                    'question'          =>  'Нет аккаунта?',
-                    'questionLink'      =>  'registration',
-                    'questionLinkText'  =>  'Зарегистрируйтесь',
-                ],
-            ];
-
-            $this->view->generate('base_view.twig',
-                array(
-                    'title' => 'Авторизация',
-                    'content' => $this->view->viewForm($formData),
-                )
-            );
-        } else {
+        if (!empty($_POST)) {
             $recaptcha = new ReCaptcha(Config::$reCaptcha['secretKey']);
             $resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
             if ($resp->isSuccess()) {
@@ -64,6 +37,34 @@ class ControllerMain extends Controller
                 $this->message('Пройдите проверку "reCaptcha"!');
             }
         }
+
+        $formData = [
+            'attributes' => [
+                'name' => 'Login',
+                'method' => 'Post',
+            ],
+            'items'  =>  [
+                ['type' =>'text', 'name' => 'login', 'label' =>'Логин', 'placeholder' => 'Логин',
+                    'value' => "{$_POST['login']}"],
+                ['type' =>'password', 'name' => 'password', 'label' =>'Пароль', 'placeholder' => 'Пароль',
+                    'value' => "{$_POST['password']}"],
+                ['type' => 'reCaptcha', "siteKey"   => Config::$reCaptcha['siteKey'],
+                    "lang" => Config::$reCaptcha['lang'],]
+            ],
+            'button' => [
+                'text'              =>  'Войти',
+                'question'          =>  'Нет аккаунта?',
+                'questionLink'      =>  'registration',
+                'questionLinkText'  =>  'Зарегистрируйтесь',
+            ],
+        ];
+
+        $this->view->generate('base_view.twig',
+            array(
+                'title' => 'Авторизация',
+                'content' => $this->view->viewForm($formData),
+            )
+        );
     }
 
 }
