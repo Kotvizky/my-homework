@@ -2,8 +2,10 @@
 
 namespace HW52\Controllers;
 
+use HW52\Config;
 use \HW52\Core\Controller;
 use \HW52\Models\ModelUsers;
+use \ReCaptcha\ReCaptcha;
 
 class ControllerMain extends Controller
 {
@@ -20,13 +22,15 @@ class ControllerMain extends Controller
                 'items'  =>  [
                     ['type' =>'text', 'name' => 'login', 'label' =>'Логин', 'placeholder' => 'Логин',],
                     ['type' =>'password', 'name' => 'password', 'label' =>'Пароль', 'placeholder' => 'Пароль',],
+                    ['type' => 'reCaptcha', "siteKey"   => Config::$reCaptcha['siteKey'],
+                        "lang" => Config::$reCaptcha['lang'],]
                 ],
                 'button' => [
                     'text'              =>  'Войти',
                     'question'          =>  'Нет аккаунта?',
                     'questionLink'      =>  'registration',
                     'questionLinkText'  =>  'Зарегистрируйтесь',
-                ]
+                ],
             ];
 
             $this->view->generate('base_view.twig',
@@ -36,21 +40,28 @@ class ControllerMain extends Controller
                 )
             );
         } else {
-            $user = ModelUsers::loginCheck();
-            if ($user) {
-                $login = $user['login'];
-                $expires = time()+3600 * 24 *14;
-                $cookie = ModelUsers::getCookie($login);
+            $recaptcha = new ReCaptcha(Config::$reCaptcha['secretKey']);
+            $resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
+            if ($resp->isSuccess()) {
+                $user = ModelUsers::loginCheck();
 
-                setcookie("hash", $cookie, $expires);
-                setcookie("login", $login, $expires);
+                if ($user) {
+                    $login = $user['login'];
+                    $expires = time()+3600 * 24 *14;
+                    $cookie = ModelUsers::getCookie($login);
 
-                $_SESSION['user'] = $user['login'];
-                $_SESSION['idUser'] = $user['id'];
-                header('Location: profile');
+                    setcookie("hash", $cookie, $expires);
+                    setcookie("login", $login, $expires);
+
+                    $_SESSION['user'] = $user['login'];
+                    $_SESSION['idUser'] = $user['id'];
+                    header('Location: profile');
+                } else {
+                    $_SESSION['message'] = 'Пользователь не найден.';
+                    header('Location: /');
+                }
             } else {
-                $_SESSION['message'] = 'Пользователь не найден.';
-                header('Location: /');
+                $this->message('Пройдите проверку "reCaptcha"!');
             }
         }
     }

@@ -11,6 +11,11 @@ class Config
     public static $photoDir ='photos/';
     public static $image = [ 'height' =>250 , 'width' => 250];
     public static $adminControllers = ['users','files'];
+    public static $reCaptcha = [
+            'siteKey'   => "6Lcs2hsUAAAAAOuWGE5KA0iAULRn_c44RD1TmiGy",
+            'secretKey' => "6Lcs2hsUAAAAADacMoSzLgHR5NVQgiqPEffrr2PD",
+            'lang'      => 'ru',
+        ];
 
     public static function homeDir()
     {

@@ -30,7 +30,7 @@ class ControllerProfile extends Controller
                 ['type' =>'date', 'name' => 'age', 'label' =>'Дата рождения',
                     'placeholder' => 'Дата рождения', 'value' => $user['age']],
                 ['type' =>'textarea', 'name' => 'description', 'label' =>'Описание', 'placeholder' => 'Описание',
-                    'value' =>htmlspecialchars_decode($user['description'])],
+                    'value' =>$user['description']],
                 ['type' =>'file'],
             ],
             'button' => [
