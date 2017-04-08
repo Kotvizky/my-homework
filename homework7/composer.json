@@ -4,15 +4,12 @@
 	"google/recaptcha": "~1.1",
     "phpmailer/phpmailer": "^5.2",
     "intervention/image": "^2.3",
-    "illuminate/database": "^5.4"	
+    "illuminate/database": "^5.4",
+    "wixel/gump": "dev-master"
   },
   "autoload": {
-    "psr-0": {
-      "HW5": "classes/"
-    },
     "psr-4":{
-      "HW52\\": "homework52/app/",
-      "MyApp\\": "homework6/app/"
+      "MyApp\\": "app/"
     }
-  }
+    }
 }
